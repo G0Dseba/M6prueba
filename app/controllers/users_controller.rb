@@ -1,31 +1,41 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_user, only: [:show, :edit, :update]
 
   def show
-    @user = User.find(params[:id])
+  end
+
+  def new
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to @user, notice: 'Usuario creado exitosamente.'
+    else
+      render :new
+    end
   end
 
   def edit
-    @user = current_user
   end
 
   def update
-    @user = current_user
     if @user.update(user_params)
-      redirect_to @user, notice: 'Profile was successfully updated.'
+      redirect_to @user, notice: 'Perfil actualizado exitosamente.'
     else
       render :edit
     end
   end
 
-  def applications
-    @user = User.find(params[:id])
-    @applications = @user.applications
-  end
-
   private
 
+  def set_user
+    @user = User.find(params[:id])
+  end
+
   def user_params
-    params.require(:user).permit(:photo, :relevant_data)
+    params.require(:user).permit(:email, :photo, :relevant_data, :password, :password_confirmation, :current_password)
   end
 end

@@ -2,8 +2,10 @@ Rails.application.routes.draw do
   # Rutas para el HomeController
   get "home/index"
 
-  # Rutas para Devise
-  devise_for :users
+  # Rutas para Devise con Controlador Personalizado
+  devise_for :users, controllers: {
+    registrations: 'users'
+  }
   
   # Rutas para Ofertas Laborales
   resources :jobs do
@@ -20,17 +22,7 @@ Rails.application.routes.draw do
   
   # Definir la ruta raíz para la página de inicio
   root "home#index"
-  
-  # Rutas para perfiles de usuarios y sus postulaciones
-  resources :users, only: [:show, :edit, :update] do
-    member do
-      get 'applications', to: 'users#applications'
-    end
-  end
 
-  # Ruta para el administrador Esteban
-  namespace :admin do
-    resources :users, only: [:index, :create, :new]
-    resources :jobs, only: [:index, :new, :create]
-  end
+  # Ruta para perfiles de usuarios manejadas por el controlador personalizado
+  resources :users, only: [:show, :edit, :update, :new, :create]
 end

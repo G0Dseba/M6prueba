@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   # Incluye módulos de Devise para autenticación
+  has_one_attached :photo
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
