@@ -1,0 +1,14 @@
+<h1>Perfil de <%= @user.email %></h1>
+<%= image_tag @user.photo if @user.photo.present? %>
+<p><%= @user.relevant_data %></p>
+<%= link_to 'Editar Perfil', edit_user_path(@user) if current_user == @user %>
+
+<h2>Mis Postulaciones</h2>
+<ul>
+  <% @user.applications.each do |application| %>
+    <li>
+      <%= link_to application.job.title, application.job %>
+    </li>
+  <% end %>
+</ul>
+

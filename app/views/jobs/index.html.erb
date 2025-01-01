@@ -1,0 +1,10 @@
+<h1>Ofertas Laborales</h1>
+<%= link_to 'Nueva Oferta', new_job_path if current_user&.admin? %>
+<ul>
+  <% @jobs.each do |job| %>
+    <li>
+      <%= link_to job.title, job %>
+    </li>
+  <% end %>
+</ul>
+
